@@ -1,7 +1,7 @@
 const express = require('express');
 const StudentRouter = express.Router();
-const studentRoutes = require('../controllers/student.controller');
-const { record, findByEmail, findById, remove, list, update } = studentRoutes;
+const studentControllers = require('../controllers/student.controller');
+const { record, findByEmail, findById, remove, list, update } = studentControllers;
 
 StudentRouter.post('/add', record);
 StudentRouter.get('/list', list);

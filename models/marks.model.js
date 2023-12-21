@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const { Schema, model, models } = require('mongoose');
 
-const MarksSchema = new mongoose.Schema({
+const MarksSchema = new Schema({
     courseName: {
         type: String, 
         required: [true, "Course name is required!"],
@@ -12,7 +12,7 @@ const MarksSchema = new mongoose.Schema({
         required: [true, "Course Id is required!"],
     },
     marks: {
-        type: String, 
+        type: Number, 
         required: [true, "Marks are required!"],
         unique: true
     },
@@ -22,4 +22,4 @@ const MarksSchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('marks', MarksSchema);
+module.exports = model('marks', MarksSchema);
