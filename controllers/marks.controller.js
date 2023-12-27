@@ -1,4 +1,42 @@
 const MarksModel = require('../models/marks.model');
+const studentModels = require('../models/student.models');
+
+/**
+ * This function calculates the gpa for every recorded marks, by using the user's id.
+ * @param {Request} req request 
+ * @param {Response} res response
+ * @param {NextFunction} next nextfunction
+ * 
+ * The formula of getting the GPA for this case is:
+ * ```javascript
+ * var x = 0;
+ * var existingMark = 0;
+ * 
+ * var newMarks = ( x * 5)/ 100
+ * var newGpa = (newMarks + existingGpa)/2 
+ * ```
+ * 
+ * Afterward, it sends us to the record function.
+ * 
+ */
+const gpaCalculator = async (req, res, next) => {
+    try {
+        var existingStudent = await studentModels.findById(req.body.student);
+        var newMarks = (req.body.marks * 5)/100;
+        
+        var newGpa = 0;
+        if (existingStudent.gpa === 0) {
+            newGpa = newMarks;
+        } else {
+            newGpa = (newMarks + existingStudent.gpa) / 2;
+        }
+        
+        await studentModels.findByIdAndUpdate({ _id: existingStudent._id }, { gpa: newGpa });        
+        next();
+    } catch (error) {
+        res.status(500).send(error);
+    }
+}
 
 const record = async (req, res, next) => {
     try {
@@ -71,5 +109,5 @@ const update = async (req, res, next) => {
 }
 
 module.exports = {
-    findByMarks, findById, list, remove, record, update
+    findByMarks, findById, list, remove, record, update, gpaCalculator
 }

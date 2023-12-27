@@ -34,7 +34,8 @@ const StudentSchema = new mongoose.Schema({
     },
     gpa: {
         type: Number,
-        required: [true, "GPA is required!"],
+        default: 0,
+        required: false,
     },
 });
 
